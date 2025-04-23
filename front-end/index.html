@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Resume to Job Matcher</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="card">
+    <h1>Resume to Job Matcher</h1>
+
+    <label>Upload Resume (PDF or Text)</label>
+    <input type="file" id="resumeFile" accept=".pdf,.txt" />
+
+    <label for="jobDesc">Job Description</label>
+    <textarea id="jobDesc" placeholder="Paste the job description here..."></textarea>
+
+    <button onclick="getMatchScore()">Get Match Score</button>
+
+    <div class="results" id="results" style="display: none;">
+      <p><strong>Match Score:</strong> <span id="score" class="score">-- %</span></p>
+      <p><strong>AI Feedback</strong></p>
+      <p id="feedback" class="feedback-text"></p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
