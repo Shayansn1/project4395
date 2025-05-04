@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Resume to Job Matcher</title>
+  <link rel="stylesheet" href="./static/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="card">
+    <h1>Resume to Job Matcher</h1>
+
+    <label>Upload Resume (PDF or Text)</label>
+    <input type="file" id="resumeFile" accept=".pdf,.txt" />
+
+    <label for="jobDesc">Job Description</label>
+    <textarea id="jobDesc" placeholder="Paste the job description here..."></textarea>
+
+    <button onclick="getMatchScore()">Get Match Score</button>
+
+    <div class="results" id="results" style="display: none;">
+      <p><strong>Match Score:</strong> <span id="score" class="score">-- %</span></p>
+      <p><strong>AI Feedback</strong></p>
+      <p id="feedback" class="feedback-text"></p>
+    </div>
+  </div>
+
+    
+
+  <script>
+    async function getMatchScore() {
+      const resumeInput = document.getElementById('resumeFile');
+      const jobDesc = document.getElementById('jobDesc').value;
+
+      if (!resumeInput.files.length || !jobDesc.trim()) {
+        alert("Please upload a resume and enter a job description.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('resume', resumeInput.files[0]);
+      formData.append('job_description', jobDesc);
+
+      try {
+        const response = await fetch('/predict', {
+          method: 'POST',
+          body: formData
+        });
+
+        const data = await response.json();
+
+        document.getElementById('score').innerText = `${data.match_score} %`;
+        document.getElementById('feedback').innerText = data.feedback || "No detailed feedback provided.";
+        document.getElementById('results').style.display = 'block';
+      } catch (err) {
+        console.error(err);
+        alert("There was an error processing your request.");
+      }
+    }
+  </script>
+</body>
+</html>

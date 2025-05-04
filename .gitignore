@@ -1,0 +1,4 @@
+.env
+*.pdf
+venv
+twin_model.pth
